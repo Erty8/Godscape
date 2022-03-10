@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using Unity.Netcode;
 
 public class Buttons : MonoBehaviour
 {
@@ -74,14 +75,14 @@ public class Buttons : MonoBehaviour
     }
     public void hostGame()
     {
-        
-        hostPanel.SetActive(true);
+        NetworkManager.Singleton.StartHost();
+        //hostPanel.SetActive(true);
 
     }
     public void joinGame()
     {
-       
-        joinPanel.SetActive(true);
+        NetworkManager.Singleton.StartClient();
+        //joinPanel.SetActive(true);
 
     }
     public void closeCanvas()
