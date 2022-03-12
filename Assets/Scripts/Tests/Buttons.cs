@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using Unity.Netcode;
 
+
 public class Buttons : MonoBehaviour
 {
+    
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] Canvas feedbackCanvas;
     [SerializeField] AudioMixer mixer;
@@ -16,6 +18,7 @@ public class Buttons : MonoBehaviour
     [SerializeField] GameObject choosePanel;
     [SerializeField] GameObject hostPanel;
     [SerializeField] GameObject joinPanel;
+    [SerializeField] Text playersInGameText;
     bool paused = false;
     List<GameObject> soundObjects = new List<GameObject>();
     Scene currentScene;
@@ -29,6 +32,7 @@ public class Buttons : MonoBehaviour
         choosePanel = GameObject.Find("ChoosePanel");
         hostPanel = GameObject.Find("HostPanel");
         joinPanel = GameObject.Find("JoinPanel");
+        //playersInGameText = GameObject.Find("PlayersText").GetComponent<Text>();
         currentScene = SceneManager.GetActiveScene();
         var sources = FindObjectsOfType<AudioSource>();
         foreach (AudioSource source in sources)
