@@ -13,7 +13,7 @@ using Unity.Services.Relay.Models;
 
 public class Buttons : MonoBehaviour
 {
-    
+    public RelayManager relayManager;
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] Canvas feedbackCanvas;
     [SerializeField] AudioMixer mixer;
@@ -30,6 +30,7 @@ public class Buttons : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        relayManager = GameObject.Find("NetworkManager").GetComponent<RelayManager>();
         joinCode = GameObject.Find("JoinCode").GetComponent<TextMeshProUGUI>();
         Button startHostButton = GameObject.Find("HostButton").GetComponent<Button>();
         Button joinButton = GameObject.Find("JoinButton").GetComponent<Button>();
@@ -83,6 +84,7 @@ public class Buttons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(relayManager.relayHostData.JoinCode);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (paused)
@@ -119,6 +121,7 @@ public class Buttons : MonoBehaviour
     public void openHostPanel()
     {
         hostCanvas.enabled = true;
+        joinCode.text = relayManager.relayHostData.JoinCode;
     }
     public void hostGame()
     {

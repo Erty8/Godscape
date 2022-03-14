@@ -12,6 +12,7 @@ using Godspace.Core.Singletons;
 public class RelayManager : Singleton<RelayManager>
 {
     public Buttons buttonScript;
+    public RelayHostData relayHostData;
     [SerializeField]
     private string environment = "production";
 
@@ -38,7 +39,7 @@ public class RelayManager : Singleton<RelayManager>
 
         Allocation allocation = await Relay.Instance.CreateAllocationAsync(maxNumberOfConnections);
 
-        RelayHostData relayHostData = new RelayHostData
+        relayHostData = new RelayHostData
         {
             Key = allocation.Key,
             Port = (ushort)allocation.RelayServer.Port,
