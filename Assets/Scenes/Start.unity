@@ -2992,17 +2992,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 544702875}
   m_CullTransparentMesh: 1
---- !u!114 &606411352 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8783427694659632771, guid: b130f1f4c3078924cb806ed07183f436, type: 3}
-  m_PrefabInstance: {fileID: 645830620}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b84c2d8dfe509a34fb59e2b81f8e1319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &627371564
 GameObject:
   m_ObjectHideFlags: 0
@@ -3151,10 +3140,14 @@ PrefabInstance:
       propertyPath: buttonScript
       value: 
       objectReference: {fileID: 1711229565}
+    - target: {fileID: 8783427694249589993, guid: b130f1f4c3078924cb806ed07183f436, type: 3}
+      propertyPath: m_ProtocolType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8783427694659632768, guid: b130f1f4c3078924cb806ed07183f436, type: 3}
       propertyPath: NetworkConfig.NetworkTransport
       value: 
-      objectReference: {fileID: 606411352}
+      objectReference: {fileID: 704383471}
     - target: {fileID: 8783427694659632768, guid: b130f1f4c3078924cb806ed07183f436, type: 3}
       propertyPath: NetworkConfig.NetworkPrefabs.Array.size
       value: 0
@@ -3624,6 +3617,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690837680}
   m_CullTransparentMesh: 1
+--- !u!114 &704383471 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8783427694249589993, guid: b130f1f4c3078924cb806ed07183f436, type: 3}
+  m_PrefabInstance: {fileID: 645830620}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &743255005
 GameObject:
   m_ObjectHideFlags: 0
@@ -7084,6 +7088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb404c2ad6d13a4439a27b150d6b11ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  relayManager: {fileID: 0}
   pauseCanvas: {fileID: 0}
   feedbackCanvas: {fileID: 0}
   mixer: {fileID: 0}
