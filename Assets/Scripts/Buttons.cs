@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using Unity.Netcode;
+using TMPro;
+using Godspace.Core.Singletons;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 
 
 public class Buttons : MonoBehaviour
@@ -16,21 +20,25 @@ public class Buttons : MonoBehaviour
     [SerializeField] Canvas settingsCanvas;
     [SerializeField] Canvas serverCanvas;
     [SerializeField] GameObject choosePanel;
-    [SerializeField] GameObject hostPanel;
+    [SerializeField] Canvas hostCanvas;
     [SerializeField] GameObject joinPanel;
     [SerializeField] Text playersInGameText;
+    public  TextMeshProUGUI joinCode;
     bool paused = false;
     List<GameObject> soundObjects = new List<GameObject>();
     Scene currentScene;
     // Start is called before the first frame update
     void Start()
     {
-        
+        joinCode = GameObject.Find("JoinCode").GetComponent<TextMeshProUGUI>();
+        Button startHostButton = GameObject.Find("HostButton").GetComponent<Button>();
+        Button joinButton = GameObject.Find("JoinButton").GetComponent<Button>();
+        TMP_InputField joinCodeInput = GameObject.Find("JoinCode").GetComponent<TMP_InputField>();
         serverCanvas = GameObject.Find("ServerCanvas").GetComponent<Canvas>();
         //pauseCanvas = GameObject.Find("Pause").gameObject.GetComponent<Canvas>();
         settingsCanvas = GameObject.Find("SettingsCanvas").GetComponent<Canvas>();
         choosePanel = GameObject.Find("ChoosePanel");
-        hostPanel = GameObject.Find("HostPanel");
+        hostCanvas = GameObject.Find("HostCanvas").GetComponent<Canvas>();
         joinPanel = GameObject.Find("JoinPanel");
         //playersInGameText = GameObject.Find("PlayersText").GetComponent<Text>();
         currentScene = SceneManager.GetActiveScene();
@@ -39,6 +47,37 @@ public class Buttons : MonoBehaviour
         {
             //source.outputAudioMixerGroup = mixer;
         }
+        startHostButton?.onClick.AddListener(async () =>
+        {
+            // this allows the UnityMultiplayer and UnityMultiplayerRelay scene to work with and without
+            // relay features - if the Unity transport is found and is relay protocol then we redirect all the 
+            // traffic through the relay, else it just uses a LAN type (UNET) communication.
+            if (RelayManager.Instance.IsRelayEnabled)
+                await RelayManager.Instance.SetupRelay();
+
+            if (NetworkManager.Singleton.StartHost())
+                Debug.Log("started host");
+                
+            
+                
+            //Logger.Instance.LogInfo("Host started...");
+            else
+                Debug.Log("unable to start host ");
+            //Logger.Instance.LogInfo("Unable to start host...");
+        });
+        joinButton?.onClick.AddListener(async () =>
+        {
+            if (RelayManager.Instance.IsRelayEnabled && !string.IsNullOrEmpty(joinCodeInput.text))
+                await RelayManager.Instance.JoinRelay(joinCodeInput.text);
+
+            if (NetworkManager.Singleton.StartClient())
+                Debug.Log("joined");
+            
+        });
+    }
+    private void Awake()
+    {
+        Cursor.visible = true;
     }
 
     // Update is called once per frame
@@ -77,11 +116,20 @@ public class Buttons : MonoBehaviour
         choosePanel.SetActive(true);
         
     }
+    public void openHostPanel()
+    {
+        hostCanvas.enabled = true;
+    }
     public void hostGame()
     {
         NetworkManager.Singleton.StartHost();
         //hostPanel.SetActive(true);
-
+    }
+    
+    public void hostRelay()
+    {
+        //RelayManager.Instance.SetupRelay();
+        
     }
     public void joinGame()
     {
