@@ -11,6 +11,7 @@ using Godspace.Core.Singletons;
 
 public class RelayManager : Singleton<RelayManager>
 {
+    public Buttons buttonScript;
     [SerializeField]
     private string environment = "production";
 
@@ -48,12 +49,14 @@ public class RelayManager : Singleton<RelayManager>
         };
 
         relayHostData.JoinCode = await Relay.Instance.GetJoinCodeAsync(relayHostData.AllocationID);
+        buttonScript.joinCode.text = relayHostData.JoinCode;
+        Debug.Log("join code is" + relayHostData.JoinCode);
 
         Transport.SetRelayServerData(relayHostData.IPv4Address, relayHostData.Port, relayHostData.AllocationIDBytes,
                 relayHostData.Key, relayHostData.ConnectionData);
 
         //Logger.Instance.LogInfo($"Relay Server Generated Join Code: {relayHostData.JoinCode}");
-
+        
         return relayHostData;
     }
 
