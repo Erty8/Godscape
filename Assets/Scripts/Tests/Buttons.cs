@@ -84,7 +84,7 @@ public class Buttons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(relayManager.relayHostData.JoinCode);
+        //Debug.Log(relayManager.relayHostData.JoinCode);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (paused)
