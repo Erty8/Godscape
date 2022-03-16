@@ -5,12 +5,18 @@ using TMPro;
 
 public class HexGrid : MonoBehaviour
 {
+
+	void Start()
+	{
+		hexMesh.Triangulate(cells);
+	}
+
 	public int width = 6;
 	public int height = 6;
 
 	public HexCell cellPrefab;
 	public TMP_Text cellLabelPrefab;
-	
+
 	HexCell[] cells;
 	HexMesh hexMesh;
 
@@ -49,5 +55,5 @@ public class HexGrid : MonoBehaviour
 			new Vector2(position.x, position.z);
 		label.text = x.ToString() + "\n" + z.ToString();
 	}
-	
+
 }
