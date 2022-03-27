@@ -23,18 +23,32 @@ public class Buttons : MonoBehaviour
     [SerializeField] Canvas hostCanvas;
     [SerializeField] GameObject joinPanel;
     [SerializeField] Text playersInGameText;
+    [SerializeField] TextMeshProUGUI god1Text;
+    [SerializeField] TextMeshProUGUI god2Text;
+    [SerializeField] TextMeshProUGUI god3Text;
+    [SerializeField] TextMeshProUGUI god4Text;
+    [SerializeField] TextMeshProUGUI player1Name;
+    [SerializeField] TMP_InputField insertName;  
     public  TextMeshProUGUI joinCode;
     bool paused = false;
     List<GameObject> soundObjects = new List<GameObject>();
+    List<string> godNames = new List<string> { "Munia", "Naba", "Vamor", "Carea" };
     Scene currentScene;
     // Start is called before the first frame update
     void Start()
     {
+       
+        god1Text = GameObject.Find("God1Name").GetComponent<TextMeshProUGUI>();
+        god2Text = GameObject.Find("God2Name").GetComponent<TextMeshProUGUI>();
+        god3Text = GameObject.Find("God3Name").GetComponent<TextMeshProUGUI>();
+        god4Text = GameObject.Find("God4Name").GetComponent<TextMeshProUGUI>();
+        player1Name = GameObject.Find("Player1name").GetComponent<TextMeshProUGUI>();
         relayManager = GameObject.Find("NetworkManager").GetComponent<RelayManager>();
         joinCode = GameObject.Find("JoinCode").GetComponent<TextMeshProUGUI>();
         Button startHostButton = GameObject.Find("HostButton").GetComponent<Button>();
         Button joinButton = GameObject.Find("JoinButton").GetComponent<Button>();
         TMP_InputField joinCodeInput = GameObject.Find("JoinCode").GetComponent<TMP_InputField>();
+        insertName = GameObject.Find("InsertName").GetComponent<TMP_InputField>();
         serverCanvas = GameObject.Find("ServerCanvas").GetComponent<Canvas>();
         //pauseCanvas = GameObject.Find("Pause").gameObject.GetComponent<Canvas>();
         settingsCanvas = GameObject.Find("SettingsCanvas").GetComponent<Canvas>();
@@ -44,6 +58,17 @@ public class Buttons : MonoBehaviour
         //playersInGameText = GameObject.Find("PlayersText").GetComponent<Text>();
         currentScene = SceneManager.GetActiveScene();
         var sources = FindObjectsOfType<AudioSource>();
+        for (int i = 0; i < godNames.Count; i++)
+        {
+            string temp = godNames[i];
+            int randomIndex = Random.Range(i, godNames.Count);
+            godNames[i] = godNames[randomIndex];
+            godNames[randomIndex] = temp;
+        }
+        god1Text.text = godNames[0];
+        god2Text.text = godNames[1];
+        god3Text.text = godNames[2];
+        god4Text.text = godNames[3];
         foreach (AudioSource source in sources)
         {
             //source.outputAudioMixerGroup = mixer;
@@ -122,6 +147,7 @@ public class Buttons : MonoBehaviour
     {
         hostCanvas.enabled = true;
         joinCode.text = relayManager.relayHostData.JoinCode;
+        player1Name.text = insertName.text ;
     }
     public void hostGame()
     {
