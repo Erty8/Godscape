@@ -47,7 +47,7 @@ public struct HexCoordinates
 
 	public static HexCoordinates FromPosition(Vector3 position)
 	{
-		float x = position.x / (HexMetrics.innerRadius * 2f);
+		float x = position.x / (Hex.innerRadius * 2f);
 		float y = -x;
 
 		float offset = position.z / (Hex.outerRadius * 3f);

@@ -14,28 +14,54 @@ public class HexGrid : MonoBehaviour
 		hexMesh.Triangulate(cells);
 	}
 
-	public int width = 6;
-	public int height = 6;
+	public const int chunkSizeX = 5, chunkSizeZ = 5;
+
+	int cellCountX, cellCountZ;
+	public int chunkCountX = 4, chunkCountZ = 3;
 
 	public HexCell cellPrefab;
 	public TMP_Text cellLabelPrefab;
+	public HexGridChunk chunkPrefab;
 
+	HexGridChunk[] chunks;
 	HexCell[] cells;
 	HexMesh hexMesh;
 
 	Canvas gridCanvas;
-
 
 	void Awake()
 	{
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 
-		cells = new HexCell[height * width];
+		cellCountX = chunkCountX * Hex.chunkSizeX;
+		cellCountZ = chunkCountZ * Hex.chunkSizeZ;
 
-		for (int z = 0, i = 0; z < height; z++)
+		CreateChunks();
+		CreateCells();
+	}
+
+	void CreateChunks()
+	{
+		chunks = new HexGridChunk[chunkCountX * chunkCountZ];
+
+		for (int z = 0, i = 0; z < chunkCountZ; z++)
 		{
-			for (int x = 0; x < width; x++)
+			for (int x = 0; x < chunkCountX; x++)
+			{
+				HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
+				chunk.transform.SetParent(transform);
+			}
+		}
+	}
+
+	void CreateCells()
+	{
+		cells = new HexCell[cellCountZ * cellCountX];
+
+		for (int z = 0, i = 0; z < cellCountZ; z++)
+		{
+			for (int x = 0; x < cellCountX; x++)
 			{
 				CreateCell(x, z, i++);
 			}
@@ -60,8 +86,28 @@ public class HexGrid : MonoBehaviour
 		label.rectTransform.anchoredPosition =
 			new Vector2(position.x, position.z);
 		label.text = cell.coordinates.ToStringOnSeparateLines();
-	}
 
+		//AddCellToChunk(x, z, cell);
+	}
+	
+	
+	
+	
+	/* The new updates for larger maps, about assiging celss to chunks.
+	void AddCellToChunk(int x, int z, HexCell cell)
+	{
+		int chunkX = x / Hex.chunkSizeX;
+		int chunkZ = z / Hex.chunkSizeZ;
+		HexGridChunk chunk = chunks[chunkX + chunkZ * chunkCountX];
+
+		int localX = x - chunkX * Hex.chunkSizeX;
+		int localZ = z - chunkZ * Hex.chunkSizeZ;
+		chunk.AddCell(localX + localZ * Hex.chunkSizeX, cell);
+	}
+	*/
+	
+	
+	
 	void Update()
 	{
 		if (Input.GetMouseButton(0))
@@ -84,7 +130,7 @@ public class HexGrid : MonoBehaviour
 	{
 		position = transform.InverseTransformPoint(position);
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-		int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+		int index = coordinates.X + coordinates.Z * cellCountZ + coordinates.Z / 2;
 		HexCell cell = cells[index];
 		cell.color = touchedColor;
 		hexMesh.Triangulate(cells);
