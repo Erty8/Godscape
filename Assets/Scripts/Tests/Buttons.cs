@@ -28,7 +28,8 @@ public class Buttons : MonoBehaviour
     [SerializeField] TextMeshProUGUI god3Text;
     [SerializeField] TextMeshProUGUI god4Text;
     [SerializeField] TextMeshProUGUI player1Name;
-    [SerializeField] TMP_InputField insertName;  
+    [SerializeField] TMP_InputField insertName;
+    [SerializeField] TextMeshProUGUI timerText;
     public  TextMeshProUGUI joinCode;
     bool paused = false;
     List<GameObject> soundObjects = new List<GameObject>();
@@ -42,6 +43,7 @@ public class Buttons : MonoBehaviour
         god2Text = GameObject.Find("God2Name").GetComponent<TextMeshProUGUI>();
         god3Text = GameObject.Find("God3Name").GetComponent<TextMeshProUGUI>();
         god4Text = GameObject.Find("God4Name").GetComponent<TextMeshProUGUI>();
+        timerText = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>();
         player1Name = GameObject.Find("Player1name").GetComponent<TextMeshProUGUI>();
         relayManager = GameObject.Find("NetworkManager").GetComponent<RelayManager>();
         joinCode = GameObject.Find("JoinCode").GetComponent<TextMeshProUGUI>();
@@ -109,6 +111,7 @@ public class Buttons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timerText.text = GameManager.Instance.minutes.ToString() + ":" + GameManager.Instance.seconds.ToString();
         //Debug.Log(relayManager.relayHostData.JoinCode);
         if (Input.GetKeyDown(KeyCode.Escape))
         {

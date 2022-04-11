@@ -16,11 +16,12 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI playersInGameText;
+    
 
-
+    
     private void Awake()
     {
-        Cursor.visible = true;
+        Cursor.visible = true;      
     }
 
     private void Update()
